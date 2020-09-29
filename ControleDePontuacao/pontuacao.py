@@ -1,17 +1,20 @@
 
-import sqlite3
+import sqlite3						# importa biblioteca do SQLite3
 from PyQt5 import uic,QtWidgets		#carrega Biblioteca do Qtdesign			
+
+#Cria banco,tabela e conexao com o banco
 
 connection = sqlite3.connect('jogos.db')
 c = connection.cursor()
 
 def create_table():
 	
-	c.execute('CREATE TABLE IF NOT EXISTS dados (jogo integer, placar integer, minTemp integer, maxTemp integer, recMin integer, recMax integer)')
+	c.execute('CREATE TABLE IF NOT EXISTS dados (ID INTEGER PRIMARY KEY AUTOINCREMENT, jogo integer, placar integer, minTemp integer, maxTemp integer, recMin integer, recMax integer)')
 create_table()
 
+# funcao de cadastro de jogo
 
-def funcao_cadJogo():							#primeiros testes de cadastramento
+def funcao_cadJogo():							
 	
 	dados = list()								# armazena ultimo registro do banco	
 	minTemp = 0									# Variavel placar minimo da temporada
@@ -70,14 +73,22 @@ def funcao_cadJogo():							#primeiros testes de cadastramento
 	connection.commit()											# atualiza dados no DB
 	
 	
+	# funcao de deletar jogo
 	
-	
-	
-	
-	
-def funcao_delJogo():				#testa botao Deletar Jogos da tela_principal
+def funcao_delJogo():								# Deletar Jogos, botao da tela_principal
 
-	print ("Cheguei Deletar !!!")
+	parametros=list()								#armazena parametro do SELECT		
+	
+	jogo = str(tela_delJogo.lineEdit.text())		#salva jogo da tela 
+	parametros.append(jogo)
+	comando = " DELETE FROM dados WHERE jogo = $1"	#SQL para remover o registro
+	
+	c.execute(comando,parametros)					#executa SQL
+	
+	tela_delJogo.lineEdit.setText('')				#limpa campo tela deletar
+	
+	connection.commit()								#atualiza o banco
+	
 	
 def funcao_consJogo():				#testa botao Consultar Jogos da tela_principal
 
@@ -93,15 +104,20 @@ app=QtWidgets.QApplication([])								#app do QtDesigner
 
 tela_principal = uic.loadUi('tela1.ui')					 	#load tela Principal        
 tela_cadJogo   = uic.loadUi('tela_cadJogo.ui')
+tela_delJogo   = uic.loadUi('tela_delJogo.ui')
 # Botoes Tela Principal
 tela_principal.btn_cadJogo.clicked.connect(tela_cadJogo.show)# Abre Tela cadastro
 tela_principal.btn_consJogo.clicked.connect(funcao_consJogo)#(TESTE )prx ver. Abre Tela 
-tela_principal.btn_delJogo.clicked.connect(funcao_delJogo)	#(TESTE )prx ver. Abre Tela 
+tela_principal.btn_delJogo.clicked.connect(tela_delJogo.show)#Abre Tela deletar
 tela_principal.btn_sair.clicked.connect(exit)			    # Encerra aplicaçao
 
 # Botoes Tela de Cadastro
 tela_cadJogo.btn_cadJogo.clicked.connect(funcao_cadJogo)	#botao Cadastrar->funcao_cadJogo
 tela_cadJogo.btn_sair.clicked.connect(tela_cadJogo.close)	#botao fecha janeja cadastro 
 tela_principal.show()										#Exibe tela Principal
+
+# Botoes da tela deletar
+tela_delJogo.btn_delJogo.clicked.connect(funcao_delJogo)	  
+tela_delJogo.btn_sair.clicked.connect(tela_delJogo.close)
 
 app.exec()													#Exec. app gerado por QtDesigner

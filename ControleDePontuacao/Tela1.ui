@@ -477,7 +477,7 @@ border-radius: 20px;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>../Users/Eduardo/Downloads/bola basquete.png</pixmap>
+             <pixmap>bola basquete.png</pixmap>
             </property>
            </widget>
           </item>
