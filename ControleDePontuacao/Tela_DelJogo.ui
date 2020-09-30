@@ -200,22 +200,21 @@ border-style: outset;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QRadioButton" name="deltodos">
+   <widget class="QPushButton" name="deltodos">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>120</y>
-      <width>121</width>
-      <height>41</height>
+      <x>10</x>
+      <y>160</y>
+      <width>111</width>
+      <height>28</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Deletar Todos</string>
+     <string>DELETAR TUDO</string>
     </property>
    </widget>
   </widget>
